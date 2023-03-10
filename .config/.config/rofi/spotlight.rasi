@@ -1,0 +1,108 @@
+/*
+.______       ______   _______ __  
+|   _  \     /  __  \ |   ____|  | 
+|  |_)  |   |  |  |  ||  |__  |  | 
+|      /    |  |  |  ||   __| |  | 
+|  |\  \----|  `--'  ||  |    |  | 
+| _| `._____|\______/ |__|    |__| 
+                                   
+*/
+
+
+configuration {
+  display-drun: " ";
+  drun-display-format: "{icon} {name}";
+  font: "SF Pro Medium 12";
+  modi: "drun";
+  show-icons: true;
+  disable-history: true;
+}
+
+* {
+  bg: #181719;
+  bg-alt: #4d4d4d;
+
+  fg: #fafafa;
+  fg-alt: #3d3a41;
+
+  blue: #6272a4;
+  purple: #bd93f9;
+
+  background-color: @bg;
+
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
+element {
+  padding: 20;
+  text-color: @fg;
+}
+
+prompt {
+  background-color: @bg;
+  enabled: true;
+  font: "SF Pro Medium 24";
+  padding: 10 0 0 20;
+  text-color: @fg;
+}
+
+entry {
+  padding: 10;
+  text-color: @fg;
+  placeholder:"Search";
+  placeholder-color: #808080;
+  font: "SF Pro Medium 20";
+}
+
+
+element selected {
+  background-color: @bg-alt;
+  text-color: @fg;
+}
+
+element-icon { 
+  size: 2.65ch;
+  vertical-align: 0.5;
+}
+
+element-icon selected {
+  background-color: @bg-alt;
+}
+
+element-text {
+  background-color: inherit;
+  text-color: inherit;
+  vertical-align: 0.5;
+  horizontal-align: 0.02;
+}
+
+inputbar {
+  children: [prompt, entry];
+}
+
+listview {
+  lines: 10;
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+
+scrollbar {
+  background-color: @bg-alt;
+  handle-color: @fg;
+}
+
+window {
+  border: 0;
+  border-color: @fg-alt;
+  padding: 0;
+  transparency: "real";
+  position: center;
+  anchor: center;
+}
+

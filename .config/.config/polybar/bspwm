@@ -1,0 +1,71 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;==========================================================
+
+[colors]
+background = #00000000
+background-alt = #444
+foreground = #dfdfdf
+foreground-alt = #555
+
+focused = #75828a
+occupied = #3f464a
+urgent = #D76E6E
+
+[bar/bspwm]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 7
+radius = 3
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+font-0 = fixed:pixelsize=10;1
+
+modules-left = bspwm
+
+wm-restack = bspwm
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %icon:44%
+label-focused-background = ${colors.focused}
+label-focused-padding = 2
+
+label-occupied = %icon:44% 
+label-occupied-background = ${colors.occupied}
+label-occupied-padding = 2
+
+label-urgent = %icon:44%
+label-urgent-background = ${colors.urgent}
+label-urgent-padding = 2
+
+label-empty = %icon:44%
+label-empty-padding = 2
+
+; Separator in between workspaces
+label-separator = |
+label-separator-foreground = #00000000
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 1
+margin-bottom = 1
+
+

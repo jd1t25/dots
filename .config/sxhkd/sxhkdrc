@@ -1,0 +1,301 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	kitty
+
+# program launcher
+super + d
+	rofi -modi "drun" -show drun -theme .config/rofi/spotlight.rasi
+
+# make sxhkd reload its configuration files:
+super + Escape
+        pkill -USR1 -x sxhkd
+	notify-send "SXHKD Updated"
+
+
+# bspwm hotkeys
+
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + shift + q
+	bspc node -c
+#super + {_,shift + }w
+#	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#
+# state/flags
+#
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus on next window in current desktop 
+super + Tab
+	bspc node -f next.local.!hidden.window
+
+# focus the next/previous window in the current desktop
+#super + {_,shift + }c
+#	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+#super + {grave,Tab}
+#	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+
+#
+# Power Management
+#
+
+# Reboot
+ctrl + shift + alt + r
+	notify-send "Rebooting in 3"; \
+	sleep 3s; \
+	systemctl reboot
+
+# Poweroff/Shutdown
+ctrl + shift + alt + p
+	notify-send "Shutdown in 3"; \
+	sleep 3s; \
+	systemctl poweroff
+
+# Halt
+ctrl + shift + alt + h
+	notify-send "Hibernating in 3"; \
+	sleep 3s; \
+	systemctl hibernate
+
+# Suspend
+ctrl + shift + alt + s
+	notify-send "Suspend in 3"; \
+	sleep 3s; \
+	systemctl suspend 
+
+
+### Refresh
+super + F5
+	./.config/bspwm/bspwmrc
+#	echo 'awesome.restart()' | awesome-client > /dev/null 2>&1
+#	./.config/scripts/refresh.sh
+
+
+### Task Manager
+ctrl + shift + Escape
+	task_manager_create
+	#	bpytop
+
+
+# Toggle Picom
+alt + F1
+	./bin/toggle_picom.sh
+
+
+#
+# Volume
+#
+
+# Volume Up
+# (xev shows PageUp as Prior)
+super + Prior
+	pulsemixer --change-volume +2 --max-volume 100
+#	volume-rocker 
+#	amixer -q -D pulse sset Master 2%+
+
+
+# Volume Down
+# (xev shows PageDown as Next)
+super + Next
+	pulsemixer --change-volume -2 --max-volume 100 
+#	volume-rocker
+#amixer -q -D pulse sset Master 2%-
+
+# Mute
+super + Delete
+	mute_border.sh	
+#pulsemixer --toggle-mute
+
+# Mute Input Sink
+super + shift + m
+	mute_sink_inputs.sh
+
+### Audio Switch
+super + Pause
+	audio_switcher.sh
+#	pkill -f "python3 bin/pulse-volume-watcher.py"; \
+#	volume-rocker
+
+
+#
+# Music
+#
+
+# Play / Pause
+super + Insert
+	playerctl play-pause
+
+# Stop
+#super + Delete
+#	playerctl stop
+
+# Next
+super + Home
+	playerctl next
+
+# Previous
+super + End
+	playerctl previous
+
+
+### Screenshot
+super + {_,shift} + Print
+	{scrot -u,scrot -s} /home/jd1t/Pictures/Screenshots/%F-%H-%M-%S.png -e 'xclip -selection clipboard -target image/png -i $f' && notify-send "Screenshot Taken"
+
+
+#
+# Apps
+#
+
+# File Manager
+super + e
+	notify-send "Opening Nautilus"; \
+	nautilus
+
+
+# Browsers
+super + alt + f
+	notify-send "Opening Firefox"; \
+	firefox
+
+super + alt + c
+	notify-send "Opening Chromium"; \
+	chromium --incognito 
+
+super + alt + b
+	notify-send "Opening Brave"; \
+	brave
+
+super + alt + o
+	notify-send "Opening Opera"; \
+	opera 
+
+super + alt + v
+	notify-send "Opening Vivaldi"; \
+	vivaldi-stable
+
+super + alt + t
+        notify-send "Opening Tor"; \
+        tor-browser
+
+
+# Music Player
+super + alt + m
+	notify-send "Opening Music Player"; \
+	music_terminal
+
+# Lofi Yt
+super + alt + n
+	notify-send "Opening Browser Player"; \
+	lofi.sh
+
+# Spotify
+super + alt + s
+	notify-send "Opening Spotify"; \
+	LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify
+
+# Copyq
+#super + c
+#	copyq_toggle
+
+# Time Terminal
+super + slash
+	time_terminal.sh
+
+# Github Token copy to clipboard
+super + alt + shift + t
+	notify-send "Token Copied"; \
+	xclip -sel c < /mnt/win1/Myself/repo_key
